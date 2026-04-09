@@ -1,0 +1,21 @@
+SELECT
+    Sub_Category,
+    Category,
+    ROUND(SUM(Sales), 2)                  AS revenue,
+    ROUND(SUM(Profit), 2)                 AS profit,
+    ROUND(SUM(Profit)/SUM(Sales)*100, 2)  AS margin_pct,
+    ROUND(AVG(Discount)*100, 2)           AS avg_discount_pct,
+    CASE
+        WHEN SUM(Profit)/SUM(Sales)*100 < 0  THEN 'Loss-making'
+        WHEN SUM(Profit)/SUM(Sales)*100 < 5  THEN 'Low margin'
+        WHEN SUM(Profit)/SUM(Sales)*100 < 15 THEN 'Healthy'
+        ELSE 'High margin'
+    END AS margin_flag
+FROM superstore
+GROUP BY Sub_Category, Category
+ORDER BY margin_pct ASC;
+
+Finding 2: 3 sub-categories are loss-making — Tables (-8.56%), 
+Bookcases (-3.02%), Supplies (-2.55%). Tables alone is losing 
+$17,725 with an avg discount of 26.13%. Labels, Paper and 
+Copiers are the highest margin sub-categories (44%, 43%, 37%).

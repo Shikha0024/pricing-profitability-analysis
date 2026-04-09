@@ -1,0 +1,17 @@
+-- Q1: Which categories are profitable?
+USE superstore_db;
+SELECT COUNT(*) FROM superstore;
+SELECT
+    Category,
+    ROUND(SUM(Sales), 2)                  AS total_revenue,
+    ROUND(SUM(Profit), 2)                 AS total_profit,
+    ROUND(SUM(Profit)/SUM(Sales)*100, 2)  AS margin_pct,
+    ROUND(AVG(Discount)*100, 2)           AS avg_discount_pct
+FROM superstore
+GROUP BY Category
+ORDER BY margin_pct DESC;
+
+
+Finding 1: Furniture has the lowest margin (2.49%) despite being 
+the second highest revenue category. High avg discount of 17.39% 
+is the likely cause. Technology is the strongest category at 17.4% margin.

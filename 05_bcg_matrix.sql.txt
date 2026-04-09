@@ -1,0 +1,47 @@
+WITH yearly_sales AS (
+    SELECT
+        Sub_Category,
+        YEAR(Order_Date)              AS yr,
+        SUM(Sales)                    AS annual_sales,
+        SUM(Profit)/SUM(Sales)*100    AS annual_margin
+    FROM superstore
+    GROUP BY Sub_Category, YEAR(Order_Date)
+),
+growth_margin AS (
+    SELECT
+        Sub_Category,
+        MAX(CASE WHEN yr = 2016 THEN annual_sales END) AS sales_2016,
+        MAX(CASE WHEN yr = 2017 THEN annual_sales END) AS sales_2017,
+        AVG(annual_margin)            AS avg_margin
+    FROM yearly_sales
+    GROUP BY Sub_Category
+)
+SELECT
+    Sub_Category,
+    ROUND((sales_2017 - sales_2016) / sales_2016 * 100, 1) AS yoy_growth_pct,
+    ROUND(avg_margin, 2)                                    AS avg_margin_pct,
+    CASE
+        WHEN (sales_2017-sales_2016)/sales_2016*100 > 10
+             AND avg_margin > 10  THEN 'Star'
+        WHEN (sales_2017-sales_2016)/sales_2016*100 <= 10
+             AND avg_margin > 10  THEN 'Cash Cow'
+        WHEN (sales_2017-sales_2016)/sales_2016*100 > 10
+             AND avg_margin <= 10 THEN 'Question Mark'
+        ELSE 'Dog'
+    END AS bcg_class
+FROM growth_margin
+ORDER BY avg_margin_pct DESC;
+
+Finding 5: BCG Analysis
+- 8 Stars: Labels, Paper, Copiers, Accessories, Art, 
+  Appliances, Binders, Phones — high growth + high margin
+- 3 Cash Cows: Envelopes, Fasteners, Furnishings — reliable profit
+- 4 Question Marks: Storage, Chairs, Supplies, Bookcases — 
+  growing but not profitable, need pricing fix
+- 2 Dogs: Machines, Tables — recommend review or exit
+
+Finding 1: Furniture has lowest margin (2.49%) vs Technology (17.4%)
+Finding 2: Tables and Bookcases are loss-making (-8.56%, -3.02%)
+Finding 3: Discounts above 20% destroy profit — $125,006 total loss
+Finding 4: West leads profit (37.9% share), Central underperforms (7.92% margin)
+Finding 5: 8 Stars, 3 Cash Cows, 4 Question Marks, 2 Dogs in BCG matrix

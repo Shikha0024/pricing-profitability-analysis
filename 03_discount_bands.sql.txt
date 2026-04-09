@@ -1,0 +1,21 @@
+SELECT
+    CASE
+        WHEN Discount = 0       THEN '0% - No discount'
+        WHEN Discount <= 0.10   THEN '1-10%'
+        WHEN Discount <= 0.20   THEN '11-20%'
+        WHEN Discount <= 0.30   THEN '21-30%'
+        ELSE                         '30%+'
+    END                            AS discount_band,
+    COUNT(*)                       AS num_orders,
+    ROUND(AVG(Profit), 2)          AS avg_profit_per_order,
+    ROUND(SUM(Profit), 2)          AS total_profit,
+    ROUND(AVG(Quantity), 2)        AS avg_units_sold
+FROM superstore
+GROUP BY discount_band
+ORDER BY AVG(Discount);
+
+Finding 3: Profit turns negative above 20% discount.
+- 30%+ discount band: 1,166 orders losing $107 per order
+- Total loss from over-discounting: $125,006
+- Higher discounts are NOT driving more volume (avg units ~3.8 across all bands)
+- This is the most actionable finding — cap discounts at 20%
