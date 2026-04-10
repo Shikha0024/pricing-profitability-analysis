@@ -1,3 +1,35 @@
+-- ================================================
+-- Query 4: Regional Profit Ranking
+-- ================================================
+-- Business Question:
+-- Which regions are driving profit and which
+-- are underperforming?
+-- Is every region equally efficient or are some
+-- regions selling more but keeping less profit?
+-- Where should management focus attention first?
+--
+-- Why this matters:
+-- The same products are sold across 4 regions
+-- but regional managers may be applying different
+-- discount levels. A region with high revenue
+-- but low margin signals a pricing or discounting
+-- problem that needs to be investigated locally.
+--
+-- SQL concepts used:
+-- CTE (WITH block) = creates a temporary table
+-- RANK() OVER()    = ranks regions by profit
+-- SUM() OVER()     = calculates total across all
+--                    rows for profit share %
+--
+-- Finding:
+-- West:    14.94% margin, 37.9% of total profit (Rank 1)
+-- East:    13.48% margin, 32.0% of total profit (Rank 2)
+-- South:   11.93% margin, 16.3% of total profit (Rank 3)
+-- Central:  7.92% margin, 13.9% of total profit (Rank 4)
+-- Central earns less profit than South despite
+-- having $110K more in revenue — needs investigation
+-- ================================================
+
 WITH region_summary AS (
     SELECT
         Region,
@@ -12,13 +44,7 @@ SELECT
     revenue,
     profit,
     margin_pct,
-    RANK() OVER (ORDER BY profit DESC)            AS profit_rank,
-    ROUND(profit * 100.0 / SUM(profit) OVER(), 1) AS profit_share_pct
+    RANK() OVER (ORDER BY profit DESC)             AS profit_rank,
+    ROUND(profit * 100.0 / SUM(profit) OVER(), 1)  AS profit_share_pct
 FROM region_summary
 ORDER BY profit_rank;
-
-
-Finding 4: West region is the profit leader (37.9% of total profit,
-14.94% margin). Central is underperforming — higher revenue than 
-South but lower profit and nearly half the margin of West (7.92% 
-vs 14.94%). Central region needs pricing and discount review.
