@@ -50,15 +50,22 @@ strategic recommendations.
 
 
 ## Charts Preview
-### Profit Margin by Sub-Category
-![Margin Chart] 
 
-### Discount vs Profit
-![Discount Scatter](images/02_discount_scatter.png)
+### Chart 1 — Profit Margin by Sub-Category
+Shows which products are profitable (green) and loss-making (red)
 
-### BCG Matrix
-![BCG Matrix](images/03_bcg_matrix.png)
+![Profit Margin by Sub-Category](Profit%20by%20sub-category.png)
 
 ---
 
-*Prepared by Shikha Chaudhary — MBA (Strategy & Marketing), IIM Udaipur*
+### Chart 2 — Discount vs Profit
+Shows where discounts destroy profit — dots below red line = losing money
+
+![Discount vs Profit](Discount%20vs%20Profit.png)
+
+---
+
+### Chart 3 — BCG Matrix
+Classifies all 17 sub-categories as Stars, Cash Cows, Question Marks and Dogs
+
+![BCG Matrix](BCG.png)
