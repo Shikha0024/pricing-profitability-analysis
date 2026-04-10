@@ -51,7 +51,7 @@ strategic recommendations.
 
 ## Charts Preview
 ### Profit Margin by Sub-Category
-![Margin Chart] /Users/shikhachaudhary/Desktop/Profit by sub-category.png
+![Margin Chart] 
 
 ### Discount vs Profit
 ![Discount Scatter](images/02_discount_scatter.png)
