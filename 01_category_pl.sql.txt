@@ -1,6 +1,26 @@
--- Q1: Which categories are profitable?
-USE superstore_db;
-SELECT COUNT(*) FROM superstore;
+-- ================================================
+-- Query 1: Category Profit & Loss Statement
+-- ================================================
+-- Business Question:
+-- Which product categories are actually profitable
+-- after discounts are applied?
+--
+-- Why this matters:
+-- Revenue alone does not tell the full story.
+-- A category generating $700K in revenue but only
+-- 2% margin is a serious business problem that
+-- would be invisible without this analysis.
+--
+-- Key metric:
+-- margin_pct = profit kept per $100 of sales
+-- A negative margin = losing money on every sale
+--
+-- Finding:
+-- Technology 17.4% margin
+-- Office Supplies 17.04% margin
+-- Furniture only 2.49% margin despite $741K revenue
+-- ================================================
+
 SELECT
     Category,
     ROUND(SUM(Sales), 2)                  AS total_revenue,
@@ -10,8 +30,3 @@ SELECT
 FROM superstore
 GROUP BY Category
 ORDER BY margin_pct DESC;
-
-
-Finding 1: Furniture has the lowest margin (2.49%) despite being 
-the second highest revenue category. High avg discount of 17.39% 
-is the likely cause. Technology is the strongest category at 17.4% margin.
