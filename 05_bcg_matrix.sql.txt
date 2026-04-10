@@ -1,3 +1,45 @@
+-- ================================================
+-- Query 5: BCG Matrix Product Classification
+-- ================================================
+-- Business Question:
+-- Which products should we invest more in and
+-- which should we consider exiting?
+-- How should we allocate our limited marketing
+-- and sales budget across 17 product types?
+--
+-- Why this matters:
+-- With limited budget the company cannot invest
+-- equally in all 17 sub-categories. The BCG
+-- matrix is a classic MBA strategy framework
+-- that classifies every product based on two
+-- dimensions: growth rate and profitability.
+-- This tells leadership exactly where to invest,
+-- where to maintain, and where to exit.
+--
+-- BCG Classification:
+-- Star          = high growth (>10%) + high margin (>10%)
+--                 → Invest, prioritise marketing spend
+-- Cash Cow      = low growth + high margin
+--                 → Maintain, milk for profit
+-- Question Mark = high growth + low margin
+--                 → Decide: fix pricing or it becomes a Dog
+-- Dog           = low growth + low margin
+--                 → Review: reprice or reduce SKU count
+--
+-- SQL concepts used:
+-- CTE 1 (yearly_sales)  = sales and margin per year
+-- CTE 2 (growth_margin) = pivots 2016 vs 2017 side by side
+-- YEAR()                = extracts year from date column
+-- CASE WHEN             = applies BCG classification logic
+--
+-- Finding:
+-- 8 Stars:          Labels, Paper, Copiers, Accessories,
+--                   Art, Appliances, Binders, Phones
+-- 3 Cash Cows:      Envelopes, Fasteners, Furnishings
+-- 4 Question Marks: Storage, Chairs, Supplies, Bookcases
+-- 2 Dogs:           Machines, Tables
+-- ================================================
+
 WITH yearly_sales AS (
     SELECT
         Sub_Category,
@@ -31,17 +73,3 @@ SELECT
     END AS bcg_class
 FROM growth_margin
 ORDER BY avg_margin_pct DESC;
-
-Finding 5: BCG Analysis
-- 8 Stars: Labels, Paper, Copiers, Accessories, Art, 
-  Appliances, Binders, Phones — high growth + high margin
-- 3 Cash Cows: Envelopes, Fasteners, Furnishings — reliable profit
-- 4 Question Marks: Storage, Chairs, Supplies, Bookcases — 
-  growing but not profitable, need pricing fix
-- 2 Dogs: Machines, Tables — recommend review or exit
-
-Finding 1: Furniture has lowest margin (2.49%) vs Technology (17.4%)
-Finding 2: Tables and Bookcases are loss-making (-8.56%, -3.02%)
-Finding 3: Discounts above 20% destroy profit — $125,006 total loss
-Finding 4: West leads profit (37.9% share), Central underperforms (7.92% margin)
-Finding 5: 8 Stars, 3 Cash Cows, 4 Question Marks, 2 Dogs in BCG matrix
