@@ -1,3 +1,32 @@
+-- ================================================
+-- Query 2: Sub-Category Margin Analysis
+-- ================================================
+-- Business Question:
+-- Which specific products are loss-making and
+-- which are highly profitable?
+-- Are there products we are actively losing money
+-- on with every single sale?
+--
+-- Why this matters:
+-- A category can look profitable at the aggregate
+-- level but hide individual products that are
+-- destroying value. This query goes one level
+-- deeper to find exactly which products are
+-- dragging down overall profitability.
+--
+-- Margin flags:
+-- Loss-making  = margin below 0%
+-- Low margin   = margin 0% to 5%
+-- Healthy      = margin 5% to 15%
+-- High margin  = margin above 15%
+--
+-- Finding:
+-- Tables:    -8.56% margin, losing $17,725/year
+-- Bookcases: -3.02% margin, losing $3,473/year
+-- Labels:    44.42% margin, highest performer
+-- Copiers:   37.20% margin, strong Technology product
+-- ================================================
+
 SELECT
     Sub_Category,
     Category,
@@ -14,8 +43,3 @@ SELECT
 FROM superstore
 GROUP BY Sub_Category, Category
 ORDER BY margin_pct ASC;
-
-Finding 2: 3 sub-categories are loss-making — Tables (-8.56%), 
-Bookcases (-3.02%), Supplies (-2.55%). Tables alone is losing 
-$17,725 with an avg discount of 26.13%. Labels, Paper and 
-Copiers are the highest margin sub-categories (44%, 43%, 37%).
